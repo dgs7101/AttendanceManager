@@ -1,0 +1,24 @@
+<p>
+  <strong>出勤時刻:</strong>
+  <%= @time_records.check_in %>
+</p>
+
+<p>
+  <strong>退勤時刻:</strong>
+  <%= @time_records.check_out %>
+</p>
+
+<p>
+  <strong>勤務時間:</strong>
+  <% if @time_records.check_out %>
+    <% total_seconds = @time_records.check_out - @time_records.check_in %>
+  <% else %>
+    <% total_seconds = Time.zone.now - @time_records.check_in %>
+  <% end %>
+    <% hours = (total_seconds / 1.hour).to_i %>
+    <% minutes = ((total_seconds % 1.hour) / 1.minute).to_i %>
+    <%= format("%02d:%02d", hours, minutes) %>
+</p>
+
+
+<%= link_to 'Back', time_records_path %>
