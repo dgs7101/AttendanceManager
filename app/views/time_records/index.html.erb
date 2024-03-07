@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--
-    <script type="module" src="javascript/clock.js"></script>
--->
+    <%= tag.div id: "clock" %>
+    <script type="module">
+        import { startClock } from "clock";
+        startClock();
+    </script>
 </head>
 
 <body>
     <h1>打刻システム</h1>
-
-<!--
-    <div>
-        現在時刻: <span id="clock"></span>
-    </div>
--->
-
+    <div id="date-display"></div>
+    <div id="day-of-week-display"></div>
+    <div id="time-display"></div>
 
     <% today_records = @time_records.where("check_in >= ?",Time.zone.today.beginning_of_day).order(check_in: :desc) %>
     <% if today_records.any? && today_records.first.check_out.nil? %>

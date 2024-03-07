@@ -1,9 +1,12 @@
-<h1>管理者ダッシュボード</h1>
+<h1>管理者ダッシュボード:出勤一覧</h1>
+
+<div><%= "最終更新時間:" + Time.zone.now.strftime("%Y-%m-%d %H:%M:%S").to_s %></div>
 
 <table>
 <thead>
     <tr>
         <th>User_id</th>
+        <th>社員名</th>
         <th>ステータス</th>
         <th>日付</th>
         <th>出勤時刻</th>
@@ -12,39 +15,41 @@
         <th>メールアドレス</th>
     </tr>
 </thead>
-<tbody>
-<% @time_records.each do |record| %>    
-    <tr>
-      <td><%= record.user_id %></td>
-      <td>
-        <% if record.check_in && record.check_out %>
-            退勤
-        <% elsif record.check_in && record.check_out.blank? %>
-          出勤
-        <% else %>
-          未
-        <% end %>
-      </td>
-      <td><%= record.check_in.strftime("%Y-%m-%d") if record.check_in %></td>
-      <td><%= record.check_in.strftime("%H:%M") if record.check_in %></td>
-      <td>
-        <% if record.check_out %>
-            <% if record.check_out.day > record.check_in.day %>
-            <!-- 日付を超えた場合 -->
-            <%= (record.check_out.hour + 24).to_s + record.check_out.strftime(":%M") %>
+  <tbody>
+    <% @time_records.each do |record| %>    
+        <tr>
+          <td><%= record.user_id %></td>
+          <td><%= record.user.username || "" %></td>
+          <td>
+            <% if record.check_in && record.check_out %>
+              退勤済
+            <% elsif record.check_in && record.check_out.blank? %>
+              出勤中
             <% else %>
-            <%= record.check_out.strftime("%H:%M") %>
+              未出勤
             <% end %>
-        <% end %>
-      </td>
-      <td>
-      <% total_seconds = @user_work_times[record.user_id] || 0 %>
-        <% hours = total_seconds / 1.hour %>
-        <% minutes = (total_seconds % 1.hour) / 1.minute %>
-        <%= format("%02d:%02d", hours, minutes) %>
-      </td>
-      <td><%= record.user.email %></td>
-    </tr>
-<% end %>  
-</tbody>
+          </td>
+          <td><%= record.check_in.strftime("%Y-%m-%d") if record.check_in %></td>
+          <td><%= record.check_in.strftime("%H:%M") if record.check_in %></td>
+          <td>
+            <% if record.check_out %>
+                <% if record.check_out.day > record.check_in.day %>
+                <!-- 日付を超えた場合 -->
+                <%= (record.check_out.hour + 24).to_s + record.check_out.strftime(":%M") %>
+                <% else %>
+                <%= record.check_out.strftime("%H:%M") %>
+                <% end %>
+            <% end %>
+          </td>
+          <td>
+          <% total_seconds = @user_work_times[record.user_id] || 0 %>
+            <% hours = total_seconds / 1.hour %>
+            <% minutes = (total_seconds % 1.hour) / 1.minute %>
+            <%= format("%02d:%02d", hours, minutes) %>
+          </td>
+          <td><%= record.user.email %></td>
+        </tr>
+    <% end %>  
+  </tbody>
 </table>
+
