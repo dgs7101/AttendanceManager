@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   namespace :admins do
-    resources :dashboards
+    resources :dashboards do
+      collection do
+        get :monthly_records
+      end
+    end
     root to: 'dashboards#index'
   end
   devise_for :admins, controllers: {

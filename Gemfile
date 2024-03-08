@@ -38,4 +38,10 @@ end
 
 # Windows ではタイムゾーン情報用の tzinfo-data gem を含める必要があります
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
 gem 'devise'
+gem 'cssbundling-rails'
+gem 'rails-i18n'
+gem "kaminari"
+gem "ransack"
+gem "tailwindcss-rails", "~> 2.3"

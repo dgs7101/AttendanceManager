@@ -1,0 +1,57 @@
+<h1 class="text-3xl font-bold underline">出退勤履歴</h1>
+
+<%= search_form_for @search, url: monthly_records_admins_dashboards_path do |f| %>
+    <%= f.label :user_username_cont, "社員名" %>
+    <%= f.search_field :user_username_cont %>
+
+    <%= f.label :check_in_gteq, "開始" %>
+    <%= f.date_field :check_in_gteq %>
+    <%= f.label :check_in_lteq, "終了" %>
+    <%= f.date_field :check_in_lteq %>
+
+    <%= f.submit %>
+    <%= link_to "リセット", monthly_records_admins_dashboards_path %>
+<% end %>
+
+<%= sort_link(@search, :user_id) %>
+<%= sort_link(@search, :user_username) %>   
+<%= sort_link(@search, :check_in) %>
+<%= sort_link(@search, :check_out) %>
+<%= sort_link(@search, :user_email) %>
+
+<table>
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+    <% @all_records.each do |record| %>
+        <tr>
+          <td><%= record.user_id %></td>
+          <td><%= record.user.username || "" %></td>
+          <td><%= record.check_in.strftime("%Y-%m-%d") if record.check_in %></td>
+          <td><%= record.check_in.strftime("%H:%M") if record.check_in %></td>
+          <td>
+            <% if record.check_out %>
+                <% if record.check_out.day > record.check_in.day %>
+                <!-- 日付を超えた場合 -->
+                <%= (record.check_out.hour + 24).to_s + record.check_out.strftime(":%M") %>
+                <% else %>
+                <%= record.check_out.strftime("%H:%M") %>
+                <% end %>
+            <% end %>
+          </td>
+          <td>
+          <td><%= record.user.email %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @all_records %>
+
+<footer>
+    <%= link_to '管理者ダッシュボード', admins_dashboards_path %>
+    <% if admin_signed_in? %>
+        <%= link_to "管理者ログアウト", destroy_admin_session_path, data: { turbo_method: :delete } %>
+    <% end %>
+</footer>

@@ -22,8 +22,14 @@ module Admins
         hash[user_id] ||= 0
         hash[user_id] += total_seconds
       end
-
     end
+
+    
+    def monthly_records
+      @search = TimeRecord.ransack(params[:q])
+      @all_records = @search.result.page(params[:page])
+    end
+    
 
     def all_records
       @time_records = TimeRecord.where(check_in: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).order(:desc)
