@@ -8,9 +8,10 @@ module Admins
       subquery = today_records.select('MAX(created_at) as latest_created_at, user_id')
                               .group(:user_id)
                               .to_sql
-      @time_records = TimeRecord.joins("INNER JOIN (#{subquery}) sub ON time_records.user_id = sub.user_id AND time_records.created_at = sub.latest_created_at")
+      time_record = TimeRecord.joins("INNER JOIN (#{subquery}) sub ON time_records.user_id = sub.user_id AND time_records.created_at = sub.latest_created_at")
                                 .order(:user_id)
-                                
+      @search = time_record.ransack(params[:q])
+      @time_records = @search.result.page(params[:page])
       @user_work_times = today_records.each_with_object({}) do |record, hash|
         user_id = record.user_id
         total_seconds = if record.check_out
@@ -23,17 +24,11 @@ module Admins
         hash[user_id] += total_seconds
       end
     end
-
     
     def monthly_records
       @search = TimeRecord.ransack(params[:q])
       @all_records = @search.result.page(params[:page])
     end
     
-
-    def all_records
-      @time_records = TimeRecord.where(check_in: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).order(:desc)
-    end
-
   end
 end
