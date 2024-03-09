@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :admins do
+    get 'attendance'
+    get 'reports'
+    get 'staff_managements'
+    get 'vacations'
     resources :dashboards do
       collection do
         get :monthly_records
