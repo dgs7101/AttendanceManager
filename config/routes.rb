@@ -10,8 +10,7 @@ Rails.application.routes.draw do
     get 'reports', to: 'reports#index'
     get 'staff_managements', to: 'staff_managements#index'
     get 'vacations', to: 'vacations#index'
-    resources :dashboards do
-    end
+    resources :dashboards
   end
 
   devise_for :users, controllers: {
@@ -28,4 +27,5 @@ Rails.application.routes.draw do
       end
     end
   end
+  root 'pages#home'
 end
