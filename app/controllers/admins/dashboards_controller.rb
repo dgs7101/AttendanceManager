@@ -24,11 +24,5 @@ module Admins
         hash[user_id] += total_seconds
       end
     end
-    
-    def monthly_records
-      @search = TimeRecord.ransack(params[:q])
-      @all_records = @search.result.page(params[:page])
-    end
-    
   end
 end

@@ -1,4 +1,4 @@
-document.addEventListener('turbo:load', function() {
+document.addEventListener('turbo:load',(event) =>  {
     startClock();
 });
 
