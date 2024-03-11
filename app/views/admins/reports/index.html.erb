@@ -1,5 +1,5 @@
-<h1 class="text-3xl font-bold">管理者ダッシュボード</h1>
-<div class="flex justify-end">
+<h1 class="ml-4 mt-2 text-3xl font-bold">管理者ダッシュボード</h1>
+<div class="mr-4 flex justify-end">
     <% if admin_signed_in? %>
         <%= link_to "管理者ログアウト", destroy_admin_session_path, data: { turbo_method: :get } %>
     <% end %>
@@ -36,13 +36,11 @@
         </li>
     </ul>
 </div>
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <div class="bg-white dark:bg-gray-900 py-4">
+<div class="relative overflow-x-auto sm:rounded-lg">
+    <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
         <%= search_form_for @search, url: admins_reports_path, html: { class: "flex items-center justify-between w-full" } do |f| %>
             <div class="flex justify-start">
-                <button type="submit" name="format" value="csv" class="mt-7 create-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    データ出力
-                </button>
+                <%= link_to "データ出力", admins_reports_path(params.merge(format: :csv).permit!), class: "btn btn-primary ml-4 mt-7 create-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
             </div>
             <div class="flex flex-wrap items-center justify-end space-x-4 mr-4">
                 <div>
@@ -208,3 +206,4 @@
         </div>
     </div>
 </div>
+
