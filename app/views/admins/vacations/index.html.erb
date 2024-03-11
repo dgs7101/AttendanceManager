@@ -1,7 +1,11 @@
-<h1 class="text-3xl font-bold underline">管理者ダッシュボード</h1>
-
+<h1 class="ml-4 mt-2 text-3xl font-bold">管理者ダッシュボード</h1>
+<div class="mr-4 flex justify-end text-lg">
+    <% if admin_signed_in? %>
+        <%= link_to "管理者ログアウト", destroy_admin_session_path, data: { turbo_method: :get } %>
+    <% end %>
+</div>
 <div class="border-b border-gray-200 dark:border-gray-700">
-    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+    <ul class="flex flex-wrap -mb-px text-lg font-medium text-center text-gray-500 dark:text-gray-400">
         <li class="me-2">
             <a href="/admins/attendance" data-turbo-frame="attendance" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                 <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -32,11 +36,6 @@
         </li>
     </ul>
 </div>
-<body>
+<div class="text-xl flex items-center justify-start ml-4 h-20">
     準備中...
-</body>
-<footer>
-    <% if admin_signed_in? %>
-        <%= link_to "管理者ログアウト", destroy_admin_session_path, data: { turbo_method: :get } %>
-    <% end %>
-</footer>
+</div>
