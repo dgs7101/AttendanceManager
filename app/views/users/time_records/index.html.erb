@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-100">
-    <div class="flex justify-end text-xl">
+    <div class="flex justify-end text-xl mr-4 pt-2">
         <% if user_signed_in? %>
             <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :get } %>
         <% end %>
@@ -8,7 +8,12 @@
         <div class="mb-4 flex items-center justify-center space-x-4 mb-10">
             <h1  class="text-4xl font-extrabold text-gray-900 ">打刻システム</h1>
         </div>
-        <div class="flex items-center justify-center space-x-4">
+        <div>
+            <% if user_signed_in? %>
+                <p class="text-2xl text-center font-extrabold text-gray-900">ログイン中：<%= current_user.username %> さん</p>
+            <% end %>
+        </div>
+        <div class="flex items-center justify-center space-x-4 mt-20">
             <div class="text-2xl font-extrabold text-gray-900" id="date-display"></div>
             <div class="text-2xl font-extrabold text-gray-900" id="day-of-week-display"></div>
         </div>
@@ -16,7 +21,7 @@
             <div class="text-8xl font-extrabold text-gray-900" id="time-display"></div>
         </div>
         <%= turbo_frame_tag "attendance_button" do %>
-            <div class="mb-4 flex items-center justify-center space-x-4">
+            <div class="mb-4 flex items-center justify-center space-x-4 mt-12 mb-20">
                 <% today_records = @time_records.where("check_in >= ?",Time.zone.today.beginning_of_day).order(check_in: :desc) %>
                 <% if today_records.any? && today_records.first.check_out.nil? %>
                     <%= button_to '退勤',  check_out_users_time_records_path, method: :post, data: { turbo_frame: 'attendance_button' }, class: "text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-4xl px-20 py-5 transition duration-300 ease-in-out transform hover:scale-105" %>
