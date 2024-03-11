@@ -37,7 +37,9 @@ module Users
             @time_record = current_user.time_records.where.not(check_in: nil).where(check_out: nil).order(check_in: :desc).first
             # 出勤記録があり、退勤記録がない場合のみ退勤時刻を記録
             if @time_record.present?
-                if @time_record.update(check_out: Time.current)
+                @time_record.check_out = Time.current
+                @time_record.worked_seconds = @time_record.check_out - @time_record.check_in
+                if @time_record.save
                     redirect_to users_time_records_path, notice: '退勤時刻を記録しました。'
                 else
                     redirect_to users_time_records_path, alert: '退勤時刻の記録に失敗しました。'
