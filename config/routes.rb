@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     registrations: 'admins/registrations'
   }
   namespace :admins do
-    root to: 'dashboards#index'
+    root to: 'attendance#index'
     get 'attendance', to: 'attendance#index'
     get 'reports', to: 'reports#index'
     get 'staff_managements', to: 'staff_managements#index'
