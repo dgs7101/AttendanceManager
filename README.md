@@ -1,24 +1,13 @@
 # README
+勤怠管理アプリ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 使用技術
+### フロントエンド
+Tailwind CSS（Component library: Flowbite）
+JavaScript（Hotwire）
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### バックエンド
+Ruby 3.2.3
+Ruby on Rails 7.0.4.3
+（主な使用Gem: Devise, ransack, Kaminari）
+SQLite 1.6.1
