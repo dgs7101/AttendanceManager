@@ -21,7 +21,7 @@
             <div class="text-6xl font-extrabold text-gray-900" id="time-display"></div>
         </div>
         <%= turbo_frame_tag "attendance_button" do %>
-            <div class="mb-4 flex items-center justify-center space-x-4 mt-12 mb-20">
+            <div class="mb-4 flex items-center justify-center space-x-4 mt-6">
                 <% today_records = @time_records.where("check_in >= ?",Time.zone.today.beginning_of_day).order(check_in: :desc) %>
                 <% if today_records.any? && today_records.first.check_out.nil? %>
                     <%= button_to '退勤',  check_out_users_time_records_path, method: :post, data: { turbo_frame: 'attendance_button' }, class: "text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-4xl px-20 py-5 transition duration-300 ease-in-out transform hover:scale-105" %>
@@ -34,22 +34,22 @@
             <button type="button" class="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center" disabled>休憩開始</button>    
             -->
 
-            <div class="w-full max-w-2xl px-4">
-                <table class="w-full mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
+            <div class="mx-auto w-full max-w-2xl px-4">
+                <table>
                     <thead>
-                        <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <th scope="col" class="px-6 py-3 text-center text-xl">出勤時刻</th>
-                            <th scope="col" class="px-6 py-3 text-center text-xl">退勤時刻</th>
-                            <th scope="col" class="px-6 py-3 text-center text-xl">勤務時間</th>
+                        <tr class="text-center text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <th scope="col" class="px-6 py-3">出勤時刻</th>
+                            <th scope="col" class="px-6 py-3">退勤時刻</th>
+                            <th scope="col" class="px-6 py-3">勤務時間</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr class="text-center text-xl bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <% @time_records.each do |record| %>
-                                <td class="px-6 py-4 text-center text-xl">
+                                <td class="px-6 py-4">
                                     <%= record.check_in.strftime("%H:%M") if record.check_in %>
                                 </td>
-                                <td class="px-6 py-4 text-center text-xl">
+                                <td class="px-6 py-4">
                                     <% if record.check_out %>
                                         <% if record.check_out.day > record.check_in.day %>
                                         <!-- 日付を超えた場合 -->
@@ -59,7 +59,7 @@
                                         <% end %>
                                     <% end %>
                                 </td>
-                                <td class="px-6 py-4 text-center text-xl">
+                                <td class="px-6 py-4">
                                     <% total_seconds = @user_work_times[record.user_id] || 0 %>
                                     <% hours = total_seconds / 1.hour %>
                                     <% minutes = (total_seconds % 1.hour) / 1.minute %>
